@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#172d28" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23172d28'/%3E%3Cpath d='M32 12 54 51H10Z' fill='none' stroke='%23dce5b5' stroke-width='3'/%3E%3C/svg%3E" />
+    <title>Pradera — Un mundo por explorar</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Pradera, inicio"><span class="brand-mark">△</span> PRADERA<span class="version">ALPHA 0.1</span></a>
+        <div class="world-status"><span class="status-dot"></span> MUNDO LOCAL <span class="divider">/</span> <span id="status">EN PAUSA</span></div>
+      </header>
+      <main id="world" aria-label="Mundo 3D en tercera persona">
+        <div class="crosshair" aria-hidden="true"></div>
+        <div class="location"><span class="eyebrow">TU PRIMER REFUGIO</span><h2>Valle abierto</h2><p>Solo tú y el horizonte.</p></div>
+        <div class="compass" aria-hidden="true"><span>O</span><span id="heading">N</span><span>E</span></div>
+        <div id="welcome" class="overlay">
+          <section class="welcome-card" aria-labelledby="welcome-title">
+            <span class="eyebrow">UN PEQUEÑO COMIENZO</span>
+            <h1 id="welcome-title">El mundo<br />empieza <em>aquí.</em></h1>
+            <p>Pasto bajo tus pies. Montañas en el horizonte.<br />Tómate un momento para explorar.</p>
+            <button id="play" class="primary">Explorar el valle <span aria-hidden="true">↗</span></button>
+            <span class="welcome-note">Sin objetivos. Sin prisas. A tu ritmo.</span>
+          </section>
+        </div>
+        <div id="touch-controls" aria-label="Controles táctiles">
+          <div id="joystick" aria-label="Arrastra para moverte"><span id="stick"></span></div>
+          <button id="run" aria-label="Mantén pulsado para correr">CORRER</button>
+        </div>
+        <button id="pause" class="pause-button" aria-label="Pausar juego" hidden>Ⅱ</button>
+        <div id="error" class="error" role="alert" hidden></div>
+      </main>
+      <footer class="bottom-bar">
+        <div class="controls"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Moverte</span><span><kbd>SHIFT</kbd> Correr</span><span><span class="mouse-icon">↔</span> Mirar · arrastra el ratón</span><span><kbd>ESC</kbd> Pausa</span></div>
+        <div class="touch-help">Joystick para moverte · arrastra a la derecha para mirar</div>
+        <div class="terrain-status"><span class="status-dot"></span> <span id="chunk-count">0</span> BLOQUES CERCANOS</div>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

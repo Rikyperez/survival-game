@@ -1,0 +1,75 @@
+:root { font-family: 'Avenir Next', 'Segoe UI', sans-serif; color: #f0f3e8; background: #172d28; font-synthesis: none; }
+* { box-sizing: border-box; }
+body { margin: 0; overflow: hidden; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, a:focus-visible { outline: 3px solid #e6ecac; outline-offset: 6px; }
+[hidden] { display: none !important; }
+#app { height: 100dvh; display: flex; flex-direction: column; }
+.topbar { height: 82px; padding: 0 42px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; border-bottom: 1px solid #ffffff0f; }
+.brand { display: flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; font-size: 15px; font-weight: 800; letter-spacing: 3px; }
+.brand-mark { color: #d3dd9f; font-size: 35px; line-height: 1; }
+.version { margin-left: 12px; border: 1px solid #ffffff26; border-radius: 4px; padding: 5px 7px; color: #b6c4b8; font-size: 9px; letter-spacing: 1.3px; font-weight: 500; }
+.world-status, .terrain-status { display: flex; align-items: center; gap: 9px; color: #b0bfb4; font-size: 10px; letter-spacing: 1.5px; }
+.status-dot { height: 5px; width: 5px; border-radius: 50%; background: #c3d891; box-shadow: 0 0 9px #c3d83525; }
+.divider { margin: 0 9px; color: #5b7366; }
+#world { flex: 1; position: relative; overflow: hidden; background: #bad6d3; touch-action: none; }
+canvas { display: block; width: 100%; height: 100%; }
+.location { position: absolute; top: 30px; left: 36px; pointer-events: none; text-shadow: 0 2px 15px #172d2840; }
+.eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 2.8px; }
+.location h2 { margin: 8px 0 4px; font-size: 22px; font-weight: 600; letter-spacing: -.8px; }
+.location p { margin: 0; font-size: 11px; opacity: .8; }
+.compass { position: absolute; top: 34px; left: 50%; transform: translateX(-50%); display: flex; gap: 28px; font-size: 10px; color: #ffffff80; pointer-events: none; }
+.compass span:nth-child(2) { color: #fff; border-top: 2px solid #e0e9b5; padding-top: 8px; margin-top: -10px; min-width: 22px; text-align: center; }
+.crosshair { position: absolute; top: 50%; left: 50%; width: 4px; height: 4px; border: 1px solid #ffffffb0; border-radius: 50%; pointer-events: none; }
+.overlay { position: absolute; inset: 0; display: flex; align-items: center; padding: 48px 8%; background: linear-gradient(90deg, #102d27c9, #17392c70 40%, transparent 76%); }
+.welcome-card { max-width: 480px; }
+.welcome-card > .eyebrow { color: #d5dfa6; display: flex; align-items: center; gap: 14px; }
+.welcome-card > .eyebrow::before { content: ''; width: 26px; height: 1px; background: currentColor; }
+h1 { margin: 24px 0; font-size: clamp(42px, 5.2vw, 78px); font-weight: 500; line-height: 1.08; letter-spacing: -3.5px; }
+h1 em { color: #dbe5b0; font-style: normal; }
+.welcome-card p { color: #d5dfd1; font-size: 14px; line-height: 1.9; margin-bottom: 32px; }
+.primary { background: #dce5b5; color: #23392b; border: 0; padding: 17px 22px; border-radius: 5px; width: 270px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; transition: background .2s, transform .2s; }
+.primary:hover { background: #eef4d0; transform: translateY(-2px); }
+.primary span { font-size: 21px; font-weight: 400; }
+.welcome-note { display: block; font-size: 10px; color: #b6c8b7; margin-top: 17px; }
+.bottom-bar { min-height: 65px; padding: 16px 36px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.controls { display: flex; flex-wrap: wrap; gap: 24px; color: #b5c3b6; font-size: 10px; }
+.controls > span { display: flex; align-items: center; gap: 5px; }
+kbd { font-family: inherit; border: 1px solid #79917f55; border-radius: 3px; padding: 4px 5px; font-size: 9px; color: #e2e8da; min-width: 20px; text-align: center; }
+.controls kbd:last-of-type { margin-right: 5px; }
+.mouse-icon { font-size: 23px; margin-right: 4px; line-height: 1; }
+.pause-button { position: absolute; right: 24px; top: 24px; background: #193b2f99; color: #fff; border: 1px solid #ffffff40; width: 38px; height: 38px; border-radius: 50%; }
+.touch-help, #touch-controls { display: none; }
+.error { position: absolute; inset: 25% 10%; padding: 28px; background: #172d28; border-radius: 8px; z-index: 3; line-height: 1.8; }
+@media (pointer: coarse) {
+  .controls { display: none; }
+  .touch-help { display: block; font-size: 10px; color: #b5c3b6; }
+  #world.playing #touch-controls { display: block; }
+  #joystick { position: absolute; bottom: 28px; left: 28px; width: 110px; height: 110px; border: 1px solid #ffffff60; border-radius: 50%; background: #173c2c30; }
+  #stick { position: absolute; left: 34px; top: 34px; width: 40px; height: 40px; border-radius: 50%; background: #e3ebbf99; pointer-events: none; }
+  #run { position: absolute; bottom: 40px; right: 28px; width: 76px; height: 76px; border-radius: 50%; border: 1px solid #ffffff70; background: #173c2c50; color: #fff; font-size: 10px; }
+}
+@media (max-width: 760px) {
+  .topbar { height: 62px; padding: 0 20px; }
+  .brand { font-size: 12px; gap: 8px; }
+  .version { margin-left: 0; font-size: 8px; }
+  .world-status { display: none; }
+  .location { left: 22px; top: 24px; }
+  .location h2 { font-size: 18px; }
+  .compass { left: auto; right: 76px; transform: none; gap: 14px; }
+  .bottom-bar { padding: 13px 20px; min-height: 55px; }
+  .terrain-status { display: none; }
+  .controls { gap: 10px; font-size: 9px; }
+  .overlay { padding: 36px 8%; }
+  h1 { letter-spacing: -2px; margin: 18px 0; }
+  .welcome-card p { font-size: 12px; margin-bottom: 22px; }
+}
+@media (max-height: 550px) {
+  .location { display: none; }
+  .welcome-card h1 { font-size: 36px; margin: 12px 0; }
+  .welcome-card p { margin: 10px 0; font-size: 11px; }
+  .welcome-note { display: none; }
+  .topbar { height: 48px; }
+  .bottom-bar { min-height: 44px; padding: 8px 20px; }
+}
