@@ -3,7 +3,7 @@
 body { margin: 0; overflow: hidden; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { font: inherit; cursor: pointer; }
-button:focus-visible, a:focus-visible { outline: 3px solid #e6ecac; outline-offset: 6px; }
+button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid #e6ecac; outline-offset: 6px; }
 [hidden] { display: none !important; }
 #app { height: 100dvh; display: flex; flex-direction: column; }
 .topbar { height: 82px; padding: 0 42px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; border-bottom: 1px solid #ffffff0f; }
@@ -13,6 +13,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid #e6ecac; outline-offs
 .world-status, .terrain-status { display: flex; align-items: center; gap: 9px; color: #b0bfb4; font-size: 10px; letter-spacing: 1.5px; }
 .status-dot { height: 5px; width: 5px; border-radius: 50%; background: #c3d891; box-shadow: 0 0 9px #c3d83525; }
 .divider { margin: 0 9px; color: #5b7366; }
+.device-picker { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #b5c3b6; }
+.device-picker select { min-height: 44px; padding: 8px; border: 1px solid #79917f55; border-radius: 5px; background: #172d28; color: #f0f3e8; font: inherit; cursor: pointer; }
 #world { flex: 1; position: relative; overflow: hidden; background: #bad6d3; touch-action: none; }
 canvas { display: block; width: 100%; height: 100%; }
 .location { position: absolute; top: 30px; left: 36px; pointer-events: none; text-shadow: 0 2px 15px #172d2840; }
@@ -42,18 +44,17 @@ kbd { font-family: inherit; border: 1px solid #79917f55; border-radius: 3px; pad
 .pause-button { position: absolute; right: 24px; top: 24px; background: #193b2f99; color: #fff; border: 1px solid #ffffff40; width: 38px; height: 38px; border-radius: 50%; }
 .touch-help, #touch-controls { display: none; }
 .error { position: absolute; inset: 25% 10%; padding: 28px; background: #172d28; border-radius: 8px; z-index: 3; line-height: 1.8; }
-@media (pointer: coarse) {
-  .controls { display: none; }
-  .touch-help { display: block; font-size: 10px; color: #b5c3b6; }
-  #world.playing #touch-controls { display: block; }
-  #joystick { position: absolute; bottom: 28px; left: 28px; width: 110px; height: 110px; border: 1px solid #ffffff60; border-radius: 50%; background: #173c2c30; }
-  #stick { position: absolute; left: 34px; top: 34px; width: 40px; height: 40px; border-radius: 50%; background: #e3ebbf99; pointer-events: none; }
-  #run { position: absolute; bottom: 40px; right: 28px; width: 76px; height: 76px; border-radius: 50%; border: 1px solid #ffffff70; background: #173c2c50; color: #fff; font-size: 10px; }
-}
+[data-device="mobile"] .controls { display: none; }
+[data-device="mobile"] .touch-help { display: block; font-size: 10px; color: #b5c3b6; }
+[data-device="mobile"] #world.playing #touch-controls { display: block; }
+#joystick { position: absolute; bottom: 28px; left: 28px; width: 110px; height: 110px; border: 1px solid #ffffff60; border-radius: 50%; background: #173c2c30; }
+#stick { position: absolute; left: 34px; top: 34px; width: 40px; height: 40px; border-radius: 50%; background: #e3ebbf99; pointer-events: none; }
+#run { position: absolute; bottom: 40px; right: 28px; width: 76px; height: 76px; border-radius: 50%; border: 1px solid #ffffff70; background: #173c2c50; color: #fff; font-size: 10px; }
 @media (max-width: 760px) {
   .topbar { height: 62px; padding: 0 20px; }
   .brand { font-size: 12px; gap: 8px; }
   .version { margin-left: 0; font-size: 8px; }
+  .device-picker { gap: 4px; font-size: 10px; }
   .world-status { display: none; }
   .location { left: 22px; top: 24px; }
   .location h2 { font-size: 18px; }
@@ -64,6 +65,9 @@ kbd { font-family: inherit; border: 1px solid #79917f55; border-radius: 3px; pad
   .overlay { padding: 36px 8%; }
   h1 { letter-spacing: -2px; margin: 18px 0; }
   .welcome-card p { font-size: 12px; margin-bottom: 22px; }
+}
+@media (max-width: 380px) {
+  .version { display: none; }
 }
 @media (max-height: 550px) {
   .location { display: none; }

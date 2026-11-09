@@ -23,6 +23,16 @@ npm run preview
 
 ## Controles
 
+El selector **Jugar en: PC / Celular**, siempre visible en la barra superior,
+permite cambiar de modo antes de entrar o durante la partida. Se detecta el
+tipo de puntero al abrir el juego por primera vez y se recuerda la elección
+en ese navegador cuando el almacenamiento está disponible.
+
+En **Celular** aparecen el joystick y el botón «Correr» durante la partida,
+junto con la ayuda táctil. En **PC** se ocultan los controles táctiles y aparece
+la ayuda de teclado y ratón, independientemente del tamaño de la pantalla.
+Cambiar de modo cancela cualquier movimiento o pulsación activa.
+
 - **WASD / flechas:** moverse en relación con la cámara.
 - **Shift:** mantener para correr.
 - **Arrastrar el ratón sobre el mundo:** girar la cámara.

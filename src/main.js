@@ -7,6 +7,24 @@ const play = document.querySelector('#play');
 const pauseButton = document.querySelector('#pause');
 const status = document.querySelector('#status');
 const error = document.querySelector('#error');
+const deviceMode = document.querySelector('#device-mode');
+let initialMode = window.matchMedia('(pointer: coarse)').matches ? 'mobile' : 'pc';
+try {
+  const savedMode = localStorage.getItem('pradera-device-mode');
+  if (savedMode === 'pc' || savedMode === 'mobile') initialMode = savedMode;
+} catch {
+  // The selector still works when browser storage is unavailable.
+}
+deviceMode.value = initialMode;
+document.documentElement.dataset.device = initialMode;
+deviceMode.addEventListener('change', () => {
+  document.documentElement.dataset.device = deviceMode.value;
+  try {
+    localStorage.setItem('pradera-device-mode', deviceMode.value);
+  } catch {
+    // Saving the preference is optional.
+  }
+});
 
 try {
   startGame();
@@ -206,6 +224,12 @@ function startGame() {
     touchRun = false;
     stick.style.transform = '';
   }
+  deviceMode.addEventListener('change', () => {
+    resetInput();
+    speed = 0;
+    resize();
+    deviceMode.blur();
+  });
   function pause() {
     playing = false;
     resetInput();
@@ -228,7 +252,7 @@ function startGame() {
   pauseButton.addEventListener('click', pause);
   window.addEventListener('keydown', (event) => {
     if (event.code === 'Escape' && playing) pause();
-    if (!playing) return;
+    if (!playing || event.target === deviceMode) return;
     if (['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ShiftLeft', 'ShiftRight'].includes(event.code)) {
       event.preventDefault();
       keys.add(event.code);
@@ -272,7 +296,7 @@ function startGame() {
     stick.style.transform = `translate(${x * 32}px, ${y * 32}px)`;
   }
   joystick.addEventListener('pointerdown', (event) => {
-    if (!playing || joystickPointer !== null) return;
+    if (!playing || deviceMode.value !== 'mobile' || joystickPointer !== null) return;
     joystickPointer = event.pointerId;
     joystick.setPointerCapture(event.pointerId);
     updateJoystick(event);
@@ -288,7 +312,7 @@ function startGame() {
   }
   for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) joystick.addEventListener(event, stopJoystick);
   run.addEventListener('pointerdown', (event) => {
-    if (!playing) return;
+    if (!playing || deviceMode.value !== 'mobile') return;
     touchRun = true;
     run.setPointerCapture(event.pointerId);
   });
