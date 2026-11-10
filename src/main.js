@@ -8,7 +8,7 @@ const pauseButton = document.querySelector('#pause');
 const status = document.querySelector('#status');
 const error = document.querySelector('#error');
 const deviceMode = document.querySelector('#device-mode');
-let initialMode = window.matchMedia('(pointer: coarse)').matches ? 'mobile' : 'pc';
+let initialMode = 'mobile';
 try {
   const savedMode = localStorage.getItem('pradera-device-mode');
   if (savedMode === 'pc' || savedMode === 'mobile') initialMode = savedMode;

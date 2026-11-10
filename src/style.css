@@ -15,8 +15,9 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 .divider { margin: 0 9px; color: #5b7366; }
 .device-picker { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #b5c3b6; }
 .device-picker select { min-height: 44px; padding: 8px; border: 1px solid #79917f55; border-radius: 5px; background: #172d28; color: #f0f3e8; font: inherit; cursor: pointer; }
-#world { flex: 1; position: relative; overflow: hidden; background: #bad6d3; touch-action: none; }
-canvas { display: block; width: 100%; height: 100%; }
+#world { flex: 1; min-height: 0; position: relative; overflow: hidden; background: #bad6d3; }
+canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+#touch-controls { touch-action: none; user-select: none; -webkit-user-select: none; }
 .location { position: absolute; top: 30px; left: 36px; pointer-events: none; text-shadow: 0 2px 15px #172d2840; }
 .eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 2.8px; }
 .location h2 { margin: 8px 0 4px; font-size: 22px; font-weight: 600; letter-spacing: -.8px; }
@@ -24,14 +25,14 @@ canvas { display: block; width: 100%; height: 100%; }
 .compass { position: absolute; top: 34px; left: 50%; transform: translateX(-50%); display: flex; gap: 28px; font-size: 10px; color: #ffffff80; pointer-events: none; }
 .compass span:nth-child(2) { color: #fff; border-top: 2px solid #e0e9b5; padding-top: 8px; margin-top: -10px; min-width: 22px; text-align: center; }
 .crosshair { position: absolute; top: 50%; left: 50%; width: 4px; height: 4px; border: 1px solid #ffffffb0; border-radius: 50%; pointer-events: none; }
-.overlay { position: absolute; inset: 0; display: flex; align-items: center; padding: 48px 8%; background: linear-gradient(90deg, #102d27c9, #17392c70 40%, transparent 76%); }
+.overlay { position: absolute; inset: 0; display: flex; align-items: center; padding: 48px 8%; overflow-y: auto; touch-action: pan-y; background: linear-gradient(90deg, #102d27c9, #17392c70 40%, transparent 76%); }
 .welcome-card { max-width: 480px; }
 .welcome-card > .eyebrow { color: #d5dfa6; display: flex; align-items: center; gap: 14px; }
 .welcome-card > .eyebrow::before { content: ''; width: 26px; height: 1px; background: currentColor; }
 h1 { margin: 24px 0; font-size: clamp(42px, 5.2vw, 78px); font-weight: 500; line-height: 1.08; letter-spacing: -3.5px; }
 h1 em { color: #dbe5b0; font-style: normal; }
 .welcome-card p { color: #d5dfd1; font-size: 14px; line-height: 1.9; margin-bottom: 32px; }
-.primary { background: #dce5b5; color: #23392b; border: 0; padding: 17px 22px; border-radius: 5px; width: 270px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; transition: background .2s, transform .2s; }
+.primary { background: #dce5b5; color: #23392b; border: 0; padding: 17px 22px; border-radius: 5px; width: 270px; max-width: 100%; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; transition: background .2s, transform .2s; }
 .primary:hover { background: #eef4d0; transform: translateY(-2px); }
 .primary span { font-size: 21px; font-weight: 400; }
 .welcome-note { display: block; font-size: 10px; color: #b6c8b7; margin-top: 17px; }
@@ -41,7 +42,7 @@ h1 em { color: #dbe5b0; font-style: normal; }
 kbd { font-family: inherit; border: 1px solid #79917f55; border-radius: 3px; padding: 4px 5px; font-size: 9px; color: #e2e8da; min-width: 20px; text-align: center; }
 .controls kbd:last-of-type { margin-right: 5px; }
 .mouse-icon { font-size: 23px; margin-right: 4px; line-height: 1; }
-.pause-button { position: absolute; right: 24px; top: 24px; background: #193b2f99; color: #fff; border: 1px solid #ffffff40; width: 38px; height: 38px; border-radius: 50%; }
+.pause-button { position: absolute; right: 24px; top: 24px; background: #193b2f99; color: #fff; border: 1px solid #ffffff40; width: 44px; height: 44px; border-radius: 50%; }
 .touch-help, #touch-controls { display: none; }
 .error { position: absolute; inset: 25% 10%; padding: 28px; background: #172d28; border-radius: 8px; z-index: 3; line-height: 1.8; }
 [data-device="mobile"] .controls { display: none; }
@@ -70,6 +71,7 @@ kbd { font-family: inherit; border: 1px solid #79917f55; border-radius: 3px; pad
   .version { display: none; }
 }
 @media (max-height: 550px) {
+  .overlay { align-items: flex-start; padding-top: 16px; padding-bottom: 16px; }
   .location { display: none; }
   .welcome-card h1 { font-size: 36px; margin: 12px 0; }
   .welcome-card p { margin: 10px 0; font-size: 11px; }
