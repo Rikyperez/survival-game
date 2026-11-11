@@ -30,6 +30,11 @@ izquierdo para caminar, arrastra el escenario para mirar y mantén **Correr**
 con otro dedo. El botón **Ⅱ** pausa la partida. Puedes girar el teléfono
 para jugar en horizontal.
 
+Durante la partida, el minimapa muestra los biomas, los pueblos y las entradas
+a mazmorras; al entrar en una mazmorra cambia al plano de sus salas y pasillos.
+En horizontal, la selección de héroe y los controles se compactan para dejar
+más espacio al mundo.
+
 ### Activar la publicación desde el teléfono
 
 1. Integra estos cambios en la rama `main` del repositorio.

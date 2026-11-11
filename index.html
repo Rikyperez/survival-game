@@ -23,6 +23,10 @@
         <div class="crosshair" aria-hidden="true"></div>
         <div class="location"><span class="eyebrow" id="zone-eyebrow">FRONTERA SALVAJE</span><h2 id="zone-name">Valle abierto</h2><p id="zone-description">Explora, lucha y descubre.</p></div>
         <div class="compass" aria-hidden="true"><span>O</span><span id="heading">N</span><span>E</span></div>
+        <section class="minimap" aria-label="Minimapa">
+          <span id="minimap-title">MAPA DEL VALLE</span>
+          <canvas id="minimap" width="192" height="192" aria-label="Mapa del mundo con la posición del héroe">Minimapa del mundo y la mazmorra.</canvas>
+        </section>
         <section id="hero-hud" class="hero-hud" aria-label="Estado del héroe" hidden>
           <div class="hero-hud-heading"><span id="hud-hero-name">Caballero</span><span id="hud-hero-role">GUARDIÁN</span></div>
           <div class="resource"><div class="resource-label"><span>VIDA</span><span id="health-value">120 / 120</span></div><div id="health-track" class="resource-track" role="progressbar" aria-label="Vida" aria-valuemin="0" aria-valuemax="120" aria-valuenow="120"><span id="health-bar" class="resource-fill health-fill"></span></div></div>
