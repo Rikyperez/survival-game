@@ -1,10 +1,21 @@
 # Pradera — survival-game
 
-Base de un juego 3D en tercera persona con Three.js: valle de pasto, montañas
-que delimitan el mundo y un personaje articulado que camina y corre.
-Elige entre caballero, mago, tanque, arquero y nigromante antes de entrar.
-Prueba los ataques contra un maniquí de entrenamiento. Todavía no hay campaña
-ni enemigos que ataquen al jugador.
+Juego 3D de fantasía en tercera persona con Three.js. Explora cinco biomas con
+pueblos, comerciantes, enemigos y encargos abiertos. Elige entre caballero,
+mago, tanque, arquero y nigromante; cada clase tiene una habilidad especial.
+Sube de nivel, desbloquea talentos, consigue equipo de seis rarezas y combate
+contra enemigos que persiguen y atacan al jugador. El maniquí de Lindeverde
+permite practicar. Cada bioma tiene una entrada a una mazmorra instanciada y un
+jefe de zona propio.
+
+Las cinco mazmorras incluyen pasillos, salas de tesoro, trampas, grupos de
+enemigos y un jefe final. Los enemigos comunes reaparecen mientras exploras.
+Cada jefe de mazmorra y jefe de zona vuelve 12 horas reales después de ser
+derrotado; la hora queda guardada en el navegador. Derrotar al jefe puede soltar
+una pieza única de su conjunto con 10% de probabilidad por victoria. Entra por
+el arco y usa **E** (o «Entrar a la mazmorra» en celular); cerca de un cofre
+pulsa **E** para abrirlo y usa «Salir de la mazmorra» para volver al mismo lugar.
+Si el jefe está en espera, todavía puedes explorar, abrir cofres y combatir.
 
 ## Jugar desde el celular (sin PC)
 
@@ -58,30 +69,42 @@ permite cambiar de modo antes de entrar o durante la partida. Se inicia en
 **Celular** al abrir el juego por primera vez y se recuerda la elección
 en ese navegador cuando el almacenamiento está disponible.
 
-En **Celular** aparecen el joystick y el botón «Correr» durante la partida,
-junto con la ayuda táctil. En **PC** se ocultan los controles táctiles y aparece
-la ayuda de teclado y ratón, independientemente del tamaño de la pantalla.
-Cambiar de modo cancela cualquier movimiento o pulsación activa.
+En **Celular** aparecen el joystick y los botones de combate durante la partida.
+La interfaz se adapta a pantallas horizontales y respeta las áreas seguras del
+teléfono; no fuerza el giro del dispositivo. En **PC** se ocultan los controles
+táctiles, independientemente del tamaño de la pantalla. Cambiar de modo cancela
+cualquier movimiento o pulsación activa.
 
 Antes de comenzar puedes escoger uno de los cinco héroes. Cada clase tiene
-distinta apariencia, vida, maná y velocidad. La interfaz muestra esos recursos;
-la estamina disminuye al correr y se recupera al caminar o descansar. La vida y
-el maná son indicadores visuales por ahora.
+distinta apariencia, vida, maná, velocidad, talentos y habilidad. Derrota
+enemigos para ganar experiencia, monedas y equipo. Cerca de cada pueblo puedes
+aceptar encargos, comprar equipo en la tienda o herrería y reponer pociones en
+la alquimia. La estamina disminuye al correr, bloquear y atacar.
+
+El nigromante captura automáticamente el alma del primer enemigo que derrota.
+La habilidad la invoca como aliada; solo puede guardar una. Al derrotar a otro
+enemigo con el espacio ocupado, el juego pide confirmar antes de reemplazarla.
+Las almas y el progreso de esta versión se mantienen solo durante la partida:
+no se guardan al recargar la página.
 
 El caballero y el tanque pueden mantener **Q** (o «Bloquear» en celular) para
-protegerse con el escudo; los demás héroes solo atacan. Usa **clic izquierdo /
-J** para combos ligeros y **clic derecho / K** para golpes pesados. En celular,
-usa los botones de ataque. Los golpes gastan estamina. Acércate al maniquí y
-míralo para golpearlo: tiene mucha vida y la regenera con el tiempo.
+protegerse con el escudo. Usa **clic izquierdo / J** para combos ligeros,
+**clic derecho / K** para golpes pesados y **R** (o «Habilidad» en celular)
+para la habilidad de clase. Pulsa **E** o «Interactuar» cerca de un pueblo,
+arco de mazmorra o cofre. Acércate al objetivo y míralo para golpearlo.
 
 - **WASD / flechas:** moverse en relación con la cámara.
 - **Shift:** mantener para correr.
 - **Arrastrar el ratón sobre el mundo:** girar la cámara.
+- **R:** habilidad especial de clase.
+- **E:** hablar en un pueblo, entrar a una mazmorra o abrir un cofre.
+- **Habilidades / Equipo / Misiones:** botones del panel de estado durante la partida.
 - **Esc / botón de pausa:** pausar. «Volver al valle» reanuda.
 - **Pantalla táctil:** joystick izquierdo para moverse, arrastrar el mundo para
   mirar y mantener «Correr» con otro dedo.
 
-El mundo tiene límites físicos. El terreno se carga y libera por bloques
-cercanos al jugador, con niebla y distancia de visión limitada. La resolución
-de renderizado está limitada a 1,5 veces la resolución CSS para reducir el coste
-en pantallas de alta densidad. No se descargan modelos ni texturas externos.
+El mundo incluye cinco biomas y pueblos dentro de un mapa ampliado, con límites
+físicos. El terreno se carga y libera por bloques cercanos al jugador, con
+niebla y distancia de visión limitada. La resolución de renderizado está
+limitada a 1,5 veces la resolución CSS para reducir el coste en pantallas de alta
+densidad. No se descargan modelos ni texturas externos.
