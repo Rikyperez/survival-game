@@ -2,7 +2,9 @@
 
 Base de un juego 3D en tercera persona con Three.js: valle de pasto, montañas
 que delimitan el mundo y un personaje articulado que camina y corre.
-Sin combate, inventario ni objetivos por ahora.
+Elige entre caballero, mago, tanque, arquero y nigromante antes de entrar.
+Prueba los ataques contra un maniquí de entrenamiento. Todavía no hay campaña
+ni enemigos que ataquen al jugador.
 
 ## Jugar desde el celular (sin PC)
 
@@ -60,6 +62,17 @@ En **Celular** aparecen el joystick y el botón «Correr» durante la partida,
 junto con la ayuda táctil. En **PC** se ocultan los controles táctiles y aparece
 la ayuda de teclado y ratón, independientemente del tamaño de la pantalla.
 Cambiar de modo cancela cualquier movimiento o pulsación activa.
+
+Antes de comenzar puedes escoger uno de los cinco héroes. Cada clase tiene
+distinta apariencia, vida, maná y velocidad. La interfaz muestra esos recursos;
+la estamina disminuye al correr y se recupera al caminar o descansar. La vida y
+el maná son indicadores visuales por ahora.
+
+El caballero y el tanque pueden mantener **Q** (o «Bloquear» en celular) para
+protegerse con el escudo; los demás héroes solo atacan. Usa **clic izquierdo /
+J** para combos ligeros y **clic derecho / K** para golpes pesados. En celular,
+usa los botones de ataque. Los golpes gastan estamina. Acércate al maniquí y
+míralo para golpearlo: tiene mucha vida y la regenera con el tiempo.
 
 - **WASD / flechas:** moverse en relación con la cámara.
 - **Shift:** mantener para correr.
