@@ -24,6 +24,11 @@ canvas { display: block; width: 100%; height: 100%; touch-action: none; }
 .location p { margin: 0; font-size: 11px; opacity: .8; }
 .compass { position: absolute; top: 34px; left: 50%; transform: translateX(-50%); display: flex; gap: 28px; font-size: 10px; color: #ffffff80; pointer-events: none; }
 .compass span:nth-child(2) { color: #fff; border-top: 2px solid #e0e9b5; padding-top: 8px; margin-top: -10px; min-width: 22px; text-align: center; }
+.minimap { position: absolute; z-index: 1; top: 112px; left: 18px; width: 148px; padding: 7px; border: 1px solid #ffffff50; border-radius: 7px; background: #172d28d9; box-shadow: 0 5px 20px #10231e55; pointer-events: none; }
+.minimap span { display: block; margin: 0 0 5px; color: #e2e8da; font-size: 8px; font-weight: 700; letter-spacing: 1.2px; }
+#minimap { width: 100%; height: auto; aspect-ratio: 1; border-radius: 3px; image-rendering: pixelated; }
+#world:not(.playing) .minimap { display: none; }
+.in-dungeon .minimap { top: 150px; }
 .crosshair { position: absolute; top: 50%; left: 50%; width: 4px; height: 4px; border: 1px solid #ffffffb0; border-radius: 50%; pointer-events: none; }
 .overlay { position: absolute; inset: 0; display: flex; align-items: center; padding: 36px 6%; overflow-y: auto; touch-action: pan-y; background: linear-gradient(90deg, #102d27e8, #17392cc9 70%, #17392c70); }
 .welcome-card { max-width: 900px; width: 100%; margin: auto; }
@@ -185,10 +190,26 @@ kbd { font-family: inherit; border: 1px solid #79917f55; border-radius: 3px; pad
   .block-button { grid-column: 1 / -1; }
   .pause-button { top: 12px; right: 12px; width: 36px; height: 36px; }
   .adventure-panel { max-height: 82%; padding: 18px; }
+  .overlay { align-items: center; padding: 8px 4%; }
+  .welcome-card { max-width: 100%; }
+  .welcome-card h1 { margin: 6px 0; font-size: 30px; }
+  .welcome-card p { margin: 4px 0 8px; font-size: 11px; }
+  .hero-picker { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 7px; margin-bottom: 8px; }
+  .hero-card { min-height: 62px; padding: 6px; }
+  .hero-icon { height: 20px; font-size: 17px; }
+  .hero-card-name { font-size: 10px; }
+  .hero-card-description, .welcome-note { display: none; }
+  .primary { width: 230px; padding: 11px 15px; }
+  .hero-hud { right: 56px; width: 180px; }
+  .minimap { top: 10px; left: 12px; width: 112px; padding: 5px; }
+  .minimap span { margin-bottom: 3px; font-size: 7px; }
+  .in-dungeon .minimap { top: auto; bottom: 10px; left: 50%; width: 96px; transform: translateX(-50%); }
+  .pause-button { top: 8px; right: 10px; }
 }
 @media (orientation: landscape) and (max-height: 420px) {
   .hero-hud { width: 180px; }
   .training-hud { display: none; }
   .combat-controls { grid-template-columns: repeat(2, 54px); }
   .combat-button { min-height: 30px; font-size: 7px; }
+  .in-dungeon .minimap { width: 82px; }
 }

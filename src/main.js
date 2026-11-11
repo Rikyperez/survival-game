@@ -98,6 +98,90 @@ function startGame() {
   }]));
   const zoneAt = (x, z) => zones.reduce((closest, zone) =>
     Math.hypot(x - zone.x, z - zone.z) < Math.hypot(x - closest.x, z - closest.z) ? zone : closest, zones[0]);
+  const minimap = document.querySelector('#minimap');
+  const minimapContext = minimap.getContext('2d');
+  const minimapTitle = document.querySelector('#minimap-title');
+  const minimapBase = document.createElement('canvas');
+  minimapBase.width = minimapBase.height = minimap.width;
+  const minimapBaseContext = minimapBase.getContext('2d');
+  function drawMinimapBase() {
+    const size = minimapBase.width;
+    const context = minimapBaseContext;
+    context.clearRect(0, 0, size, size);
+    context.fillStyle = '#172d28';
+    context.fillRect(0, 0, size, size);
+    if (activeDungeon) {
+      minimapTitle.textContent = 'MAPA DE MAZMORRA';
+      const cellSize = size / 11;
+      for (const id of activeDungeon.cells) {
+        const [x, z] = id.split(',').map(Number);
+        const type = activeDungeon.cellTypes.get(id);
+        context.fillStyle = type === 'boss' ? '#9a5245'
+          : type === 'treasure' ? '#c29c55'
+            : type === 'trap' ? '#795174' : '#82937a';
+        context.fillRect(x * cellSize + 1, (10 - z) * cellSize + 1, cellSize - 2, cellSize - 2);
+      }
+    } else {
+      minimapTitle.textContent = 'MAPA DEL VALLE';
+      const cellCount = 48;
+      const cellSize = size / cellCount;
+      for (let row = 0; row < cellCount; row++) {
+        for (let column = 0; column < cellCount; column++) {
+          const x = -worldLimit + (column + .5) * (worldLimit * 2 / cellCount);
+          const z = worldLimit - (row + .5) * (worldLimit * 2 / cellCount);
+          context.fillStyle = zoneAt(x, z).ground;
+          context.fillRect(column * cellSize, row * cellSize, Math.ceil(cellSize), Math.ceil(cellSize));
+        }
+      }
+      for (const zone of zones) {
+        const townX = (zone.townX + worldLimit) / (worldLimit * 2) * size;
+        const townY = (worldLimit - zone.townZ) / (worldLimit * 2) * size;
+        context.fillStyle = '#15251e';
+        context.beginPath();
+        context.arc(townX, townY, 4, 0, Math.PI * 2);
+        context.fill();
+        context.fillStyle = zone.accent;
+        context.beginPath();
+        context.arc(townX, townY, 2.5, 0, Math.PI * 2);
+        context.fill();
+        const entranceX = (zone.entranceX + worldLimit) / (worldLimit * 2) * size;
+        const entranceY = (worldLimit - zone.entranceZ) / (worldLimit * 2) * size;
+        context.fillStyle = '#f0d48a';
+        context.fillRect(entranceX - 2, entranceY - 2, 4, 4);
+      }
+    }
+    context.strokeStyle = '#e5e9d888';
+    context.lineWidth = 2;
+    context.strokeRect(1, 1, size - 2, size - 2);
+  }
+  function drawMinimap() {
+    const context = minimapContext;
+    const size = minimap.width;
+    context.drawImage(minimapBase, 0, 0);
+    const x = activeDungeon
+      ? (player.position.x + 77) / 154 * size
+      : (player.position.x + worldLimit) / (worldLimit * 2) * size;
+    const y = activeDungeon
+      ? (77 - player.position.z) / 154 * size
+      : (worldLimit - player.position.z) / (worldLimit * 2) * size;
+    context.save();
+    context.translate(x, y);
+    context.rotate(-player.rotation.y);
+    context.fillStyle = '#14231c';
+    context.beginPath();
+    context.arc(0, 0, 7, 0, Math.PI * 2);
+    context.fill();
+    context.fillStyle = '#f5f2d5';
+    context.beginPath();
+    context.moveTo(0, -6);
+    context.lineTo(4.5, 5);
+    context.lineTo(0, 3);
+    context.lineTo(-4.5, 5);
+    context.closePath();
+    context.fill();
+    context.restore();
+  }
+  drawMinimapBase();
   const treeMaterials = new Map(zones.map((zone) => [zone.id, new THREE.MeshStandardMaterial({ color: zone.tree, roughness: 1 })]));
   const townWallMaterials = new Map(zones.map((zone) => [zone.id, new THREE.MeshStandardMaterial({ color: zone.accent, roughness: 1 })]));
   const roofMaterial = new THREE.MeshStandardMaterial({ color: '#674d3d', roughness: 1 });
@@ -945,7 +1029,7 @@ function startGame() {
       id: dungeonId, zone, group, enemies: dungeonEnemies, boss: dungeonBoss,
       traps: [[5, 8], [5, 6], [7, 5], [8, 4], [3, 5], [2, 6], [9, 4]].map(([x, z]) => center(x, z)),
       trapCooldown: 0, chests, exitPosition, nextMobSpawn: 0, palette,
-      cells,
+      cells, cellTypes,
       wallMaterial, floorMaterial, accentMaterial, trapMaterial,
       enemyMaterial: enemyTheme,
       exitWorld: { x: zone.entranceX, z: zone.entranceZ + 5 },
@@ -964,6 +1048,8 @@ function startGame() {
     player.rotation.y = 0;
     yaw = 0;
     pitch = .22;
+    world.classList.add('in-dungeon');
+    drawMinimapBase();
     scene.background = new THREE.Color('#171716');
     scene.fog = new THREE.Fog('#171716', 68, 105);
     dungeonHud.hidden = false;
@@ -994,6 +1080,8 @@ function startGame() {
     dungeon.trapMaterial.dispose();
     dungeon.enemyMaterial.dispose();
     activeDungeon = null;
+    world.classList.remove('in-dungeon');
+    drawMinimapBase();
     setOverworldVisible(true);
     player.position.set(dungeon.returnPosition.x, heightAt(dungeon.returnPosition.x, dungeon.returnPosition.z), dungeon.returnPosition.z);
     scene.background = new THREE.Color('#bedcde');
@@ -1540,10 +1628,15 @@ function startGame() {
   let lastTime = performance.now();
   let nextBossHudUpdate = 0;
   let nextTrainingHudUpdate = 0;
+  let nextMinimapUpdate = 0;
   renderer.setAnimationLoop((now) => {
     const dt = Math.min((now - lastTime) / 1000, .05);
     lastTime = now;
     if (!playing && !needsRender) return;
+    if (playing && now >= nextMinimapUpdate) {
+      drawMinimap();
+      nextMinimapUpdate = now + 100;
+    }
     if (playing && adventurePanel.hidden) {
       const forward = Number(keys.has('KeyW') || keys.has('ArrowUp')) - Number(keys.has('KeyS') || keys.has('ArrowDown')) - joystickY;
       const sideways = Number(keys.has('KeyD') || keys.has('ArrowRight')) - Number(keys.has('KeyA') || keys.has('ArrowLeft')) + joystickX;
