@@ -2,7 +2,7 @@
 <html lang="es" data-device="mobile">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#172d28" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23172d28'/%3E%3Cpath d='M32 12 54 51H10Z' fill='none' stroke='%23dce5b5' stroke-width='3'/%3E%3C/svg%3E" />
     <title>Pradera — Un mundo por explorar</title>
@@ -21,13 +21,31 @@
       </header>
       <main id="world" aria-label="Mundo 3D en tercera persona">
         <div class="crosshair" aria-hidden="true"></div>
-        <div class="location"><span class="eyebrow">TU PRIMER REFUGIO</span><h2>Valle abierto</h2><p>Solo tú y el horizonte.</p></div>
+        <div class="location"><span class="eyebrow" id="zone-eyebrow">FRONTERA SALVAJE</span><h2 id="zone-name">Valle abierto</h2><p id="zone-description">Explora, lucha y descubre.</p></div>
         <div class="compass" aria-hidden="true"><span>O</span><span id="heading">N</span><span>E</span></div>
         <section id="hero-hud" class="hero-hud" aria-label="Estado del héroe" hidden>
           <div class="hero-hud-heading"><span id="hud-hero-name">Caballero</span><span id="hud-hero-role">GUARDIÁN</span></div>
           <div class="resource"><div class="resource-label"><span>VIDA</span><span id="health-value">120 / 120</span></div><div id="health-track" class="resource-track" role="progressbar" aria-label="Vida" aria-valuemin="0" aria-valuemax="120" aria-valuenow="120"><span id="health-bar" class="resource-fill health-fill"></span></div></div>
           <div class="resource"><div class="resource-label"><span>MANÁ</span><span id="mana-value">70 / 70</span></div><div id="mana-track" class="resource-track" role="progressbar" aria-label="Maná" aria-valuemin="0" aria-valuemax="70" aria-valuenow="70"><span id="mana-bar" class="resource-fill mana-fill"></span></div></div>
           <div class="resource"><div class="resource-label"><span>ESTAMINA</span><span id="stamina-value">100 / 100</span></div><div id="stamina-track" class="resource-track" role="progressbar" aria-label="Estamina" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span id="stamina-bar" class="resource-fill stamina-fill"></span></div></div>
+          <div class="progress-label"><span id="level-value">NIVEL 1 · 0 XP</span><span id="coin-value">0 ✦</span></div>
+          <div class="adventure-actions">
+            <button type="button" data-panel="skills">HABILIDADES</button>
+            <button type="button" data-panel="inventory">EQUIPO</button>
+            <button type="button" data-panel="journal">MISIONES</button>
+          </div>
+        </section>
+        <section id="adventure-panel" class="adventure-panel" aria-live="polite" hidden>
+          <button id="panel-close" class="panel-close" type="button" aria-label="Cerrar panel">×</button>
+          <span class="eyebrow" id="panel-eyebrow">AVENTURA</span>
+          <h2 id="panel-title">Habilidades</h2>
+          <div id="panel-content"></div>
+        </section>
+        <section id="dungeon-hud" class="dungeon-hud" aria-label="Estado de la mazmorra" hidden>
+          <strong id="dungeon-title">Mazmorra</strong>
+          <span id="dungeon-boss-status"></span>
+          <div id="dungeon-boss-track" class="dungeon-boss-track" role="progressbar" aria-label="Vida del jefe" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span id="dungeon-boss-bar"></span></div>
+          <button id="leave-dungeon" type="button">SALIR DE LA MAZMORRA</button>
         </section>
         <section id="training-hud" class="training-hud" aria-label="Maniquí de entrenamiento" hidden>
           <div class="training-heading"><span>MANIQUÍ DE PRÁCTICA</span><span id="training-health-value">2400 / 2400</span></div>
@@ -56,6 +74,8 @@
           <div class="combat-controls" aria-label="Controles de combate">
             <button id="attack-light" class="combat-button" aria-label="Ataque ligero">LIGERO</button>
             <button id="attack-heavy" class="combat-button" aria-label="Ataque pesado">PESADO</button>
+            <button id="ability" class="combat-button ability-button" aria-label="Usar habilidad">HABILIDAD</button>
+            <button id="interact" class="combat-button interact-button" aria-label="Hablar o interactuar" hidden>HABLAR</button>
             <button id="block" class="combat-button block-button" aria-label="Mantén pulsado para bloquear" hidden>BLOQUEAR</button>
           </div>
         </div>
@@ -63,8 +83,8 @@
         <div id="error" class="error" role="alert" hidden></div>
       </main>
       <footer class="bottom-bar">
-        <div class="controls"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Moverte</span><span><kbd>SHIFT</kbd> Correr</span><span><kbd>CLICK</kbd> Ligero · <kbd>J</kbd> combo</span><span><kbd>CLICK DERECHO</kbd> / <kbd>K</kbd> Pesado</span><span><kbd>Q</kbd> Mantener escudo</span><span><kbd>ESC</kbd> Pausa</span></div>
-        <div class="touch-help">Joystick para moverte · botones de combate a la derecha</div>
+        <div class="controls"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Moverte</span><span><kbd>SHIFT</kbd> Correr</span><span><kbd>CLICK</kbd> Ligero · <kbd>J</kbd> combo</span><span><kbd>CLICK DERECHO</kbd> / <kbd>K</kbd> Pesado</span><span><kbd>R</kbd> Habilidad</span><span><kbd>E</kbd> Hablar</span><span><kbd>Q</kbd> Mantener escudo</span><span><kbd>ESC</kbd> Pausa</span></div>
+        <div class="touch-help">Joystick para moverte · combate y habilidad a la derecha · acércate a un pueblo, arco o cofre para interactuar</div>
         <div class="terrain-status"><span class="status-dot"></span> <span id="chunk-count">0</span> BLOQUES CERCANOS</div>
       </footer>
     </div>
